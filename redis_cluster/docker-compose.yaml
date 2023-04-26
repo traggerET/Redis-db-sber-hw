@@ -1,0 +1,39 @@
+version: '3'
+services:
+  rhost:
+      image: 'redis:6.2-alpine'
+      command: redis-server /usr/local/etc/redis/redis.conf
+      ports:
+        - '6376:6376'
+      volumes:
+        - ./rhost.conf:/usr/local/etc/redis/redis.conf
+      networks:
+        app_subnet:
+          ipv4_address: 172.22.0.31
+  rsub1:
+      image: 'redis:6.2-alpine'
+      command: redis-server /usr/local/etc/redis/redis.conf
+      ports:
+        - '6377:6377'
+      volumes:
+        - ./rsub1.conf:/usr/local/etc/redis/redis.conf
+      networks:
+        app_subnet:
+          ipv4_address: 172.22.0.32
+  rsub2:
+      image: 'redis:6.2-alpine'
+      command: redis-server /usr/local/etc/redis/redis.conf
+      ports:
+        - '6378:6378'
+      volumes:
+        - ./rsub2.conf:/usr/local/etc/redis/redis.conf
+      networks:
+        app_subnet:
+          ipv4_address: 172.22.0.33
+
+networks:
+  app_subnet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.22.0.0/24
